@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thở - Breathe Teen | Hỗ trợ sức khỏe tinh thần học sinh THPT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Quicksand', 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #E8F5F3 0%, #F0F8F6 50%, #FFF0F5 100%);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Decorative background */
+    .bg-decoration {
+      position: fixed;
+      border-radius: 50%;
+      z-index: 0;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    .bg-decoration-1 {
+      top: -10%;
+      right: -5%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(184, 163, 232, 0.15) 0%, transparent 70%);
+    }
+
+    .bg-decoration-2 {
+      bottom: -10%;
+      left: -5%;
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(147, 197, 189, 0.15) 0%, transparent 70%);
+      animation: float 25s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -30px) scale(1.05); }
+      66% { transform: translate(-20px, 20px) scale(0.95); }
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* Header */
+    header {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      padding: 20px 40px;
+      border-radius: 24px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 8px 32px rgba(147, 197, 189, 0.15);
+      border: 2px solid rgba(147, 197, 189, 0.2);
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .bunny-logo {
+      animation: breathe 4s ease-in-out infinite;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 32px;
+      background: linear-gradient(135deg, #93C5BD 0%, #B8A3E8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
+
+    .tagline {
+      margin: 4px 0 0;
+      color: #718096;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .nav-item {
+      padding: 10px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+      font-size: 14px;
+      background: none;
+      border: none;
+      color: #4A5568;
+    }
+
+    .nav-item:hover {
+      background: rgba(147, 197, 189, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .nav-item.active {
+      background: linear-gradient(135deg, #93C5BD 0%, #7FB3AB 100%);
+      color: white;
+    }
+
+    /* Card */
+    .card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 8px 32px rgba(147, 197, 189, 0.15);
+      border: 2px solid rgba(147, 197, 189, 0.2);
+      transition: all 0.3s ease;
+      margin-bottom: 24px;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 48px rgba(147, 197, 189, 0.25);
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 12px 28px;
+      border-radius: 16px;
+      border: none;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #93C5BD 0%, #7FB3AB 100%);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #7FB3AB 0%, #6BA199 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(147, 197, 189, 0.4);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #B8A3E8 0%, #A389D8 100%);
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: linear-gradient(135deg, #A389D8 0%, #8E6FC8 100%);
+      transform: translateY(-2px);
+    }
+
+    /* Form inputs */
+    input, textarea, select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid rgba(147, 197, 189, 0.3);
+      border-radius: 12px;
+      font-family: 'Quicksand', sans-serif;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.6);
+      transition: all 0.3s ease;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #93C5BD;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 0 4px rgba(147, 197, 189, 0.1);
+    }
+
+    /* Page content */
+    .page-content {
+      animation: fadeInUp 0.6s ease-out;
+      display: none;
+    }
+
+    .page-content.active {
+      display: block;
+    }
+
+    /* Grid layouts */
+    .grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    /* Stress indicator */
+    .stress-indicator {
+      width: 100%;
+      height: 12px;
+      background: #E8F5F3;
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .stress-fill {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 1s ease, background 0.3s ease;
+    }
+
+    /* Test questions */
+    .question {
+      margin-bottom: 28px;
+    }
+
+    .question-text {
+      font-weight: 600;
+      color: #2D3748;
+      margin-bottom: 12px;
+    }
+
+    .answer-options {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .answer-option {
+      padding: 10px 20px;
+      border-radius: 12px;
+      border: 2px solid #E2E8F0;
+      background: white;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .answer-option:hover {
+      border-color: #93C5BD;
+    }
+
+    .answer-option.selected {
+      border-color: #93C5BD;
+      background: rgba(147, 197, 189, 0.2);
+    }
+
+    /* Result display */
+    .result-box {
+      padding: 32px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .result-level {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .result-percentage {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    /* Stats cards */
+    .stat-card {
+      text-align: center;
+    }
+
+    .stat-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: #718096;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    /* Category scores */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .category-item {
+      background: white;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #E2E8F0;
+    }
+
+    .category-name {
+      font-size: 12px;
+      color: #718096;
+      margin-bottom: 6px;
+    }
+
+    .category-bars {
+      display: flex;
+      gap: 4px;
+    }
+
+    .category-bar {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+    }
+
+    /* Rest spots */
+    .spot-type {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 8px;
+      background: rgba(147, 197, 189, 0.2);
+      color: #93C5BD;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    /* Resources */
+    .resource-type {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .resource-type.video {
+      background: rgba(147, 197, 189, 0.2);
+      color: #93C5BD;
+    }
+
+    .resource-type.article {
+      background: rgba(184, 163, 232, 0.2);
+      color: #B8A3E8;
+    }
+
+    .resource-type.hotline {
+      background: rgba(255, 184, 209, 0.2);
+      color: #FFB8D1;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 60px;
+      padding: 32px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      border: 2px solid rgba(147, 197, 189, 0.2);
+    }
+
+    /* Utility classes */
+    .text-center { text-align: center; }
+    .mb-16 { margin-bottom: 16px; }
+    .mb-24 { margin-bottom: 24px; }
+    .mb-32 { margin-bottom: 32px; }
+    .mt-16 { margin-top: 16px; }
+    .hidden { display: none; }
+    .flex { display: flex; }
+    .flex-between { display: flex; justify-content: space-between; align-items: center; }
+    .gap-12 { gap: 12px; }
+    .gap-20 { gap: 20px; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .nav-item {
+        font-size: 12px;
+        padding: 8px 12px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .answer-options {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-decoration bg-decoration-1"></div>
+  <div class="bg-decoration bg-decoration-2"></div>
+
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="logo-area">
+        <div class="bunny-logo">
+          <svg width="70" height="70" viewBox="0 0 200 200">
+            <ellipse cx="100" cy="130" rx="60" ry="55" fill="#E8F5F3" stroke="#93C5BD" stroke-width="2"/>
+            <circle cx="100" cy="80" r="50" fill="#F0F8F6" stroke="#93C5BD" stroke-width="2"/>
+            <ellipse cx="75" cy="35" rx="15" ry="40" fill="#E8F5F3" stroke="#93C5BD" stroke-width="2" transform="rotate(15 75 35)"/>
+            <ellipse cx="75" cy="35" rx="8" ry="30" fill="#FFD6E8" transform="rotate(15 75 35)"/>
+            <ellipse cx="125" cy="35" rx="15" ry="40" fill="#E8F5F3" stroke="#93C5BD" stroke-width="2" transform="rotate(-15 125 35)"/>
+            <ellipse cx="125" cy="35" rx="8" ry="30" fill="#FFD6E8" transform="rotate(-15 125 35)"/>
+            <circle cx="85" cy="75" r="4" fill="#2D3748"/>
+            <circle cx="115" cy="75" r="4" fill="#2D3748"/>
+            <path d="M 82 72 Q 85 69 88 72" stroke="#2D3748" stroke-width="2" fill="none"/>
+            <path d="M 112 72 Q 115 69 118 72" stroke="#2D3748" stroke-width="2" fill="none"/>
+            <ellipse cx="100" cy="85" rx="6" ry="4" fill="#FFB8D1"/>
+            <path d="M 100 88 Q 95 92 90 90" stroke="#2D3748" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M 100 88 Q 105 92 110 90" stroke="#2D3748" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <ellipse cx="70" cy="88" rx="12" ry="8" fill="#FFD6E8" opacity="0.6"/>
+            <ellipse cx="130" cy="88" rx="12" ry="8" fill="#FFD6E8" opacity="0.6"/>
+            <rect x="50" y="70" width="8" height="25" rx="4" fill="#B8A3E8" stroke="#9378D9" stroke-width="2"/>
+            <rect x="142" y="70" width="8" height="25" rx="4" fill="#B8A3E8" stroke="#9378D9" stroke-width="2"/>
+            <path d="M 58 82 Q 100 55 142 82" stroke="#9378D9" stroke-width="4" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Thở</h1>
+          <p class="tagline">Breathe Teen - Nơi dừng chân của bạn</p>
+        </div>
+      </div>
+      
+      <nav>
+        <button class="nav-item active" data-page="home">🏠 Trang chủ</button>
+        <button class="nav-item" data-page="test">📝 Test Burnout</button>
+        <button class="nav-item" data-page="dashboard">📊 Dashboard</button>
+        <button class="nav-item" data-page="map">🗺️ Bản đồ</button>
+        <button class="nav-item" data-page="resources">📚 Tài nguyên</button>
+      </nav>
+    </header>
+
+    <!-- HOME PAGE -->
+    <div id="page-home" class="page-content active">
+      <div class="text-center" style="padding: 60px 20px;">
+        <div class="mb-32">
+          <svg width="200" height="200" viewBox="0 0 200 200" style="filter: drop-shadow(0 4px 12px rgba(147, 197, 189, 0.3));">
+            <ellipse cx="100" cy="130" rx="60" ry="55" fill="#E8F5F3" stroke="#93C5BD" stroke-width="2"/>
+            <circle cx="100" cy="80" r="50" fill="#F0F8F6" stroke="#93C5BD" stroke-width="2"/>
+            <ellipse cx="75" cy="35" rx="15" ry="40" fill="#E8F5F3" stroke="#93C5BD" stroke-width="2" transform="rotate(25 75 35)"/>
+            <ellipse cx="75" cy="35" rx="8" ry="30" fill="#FFD6E8" transform="rotate(25 75 35)"/>
+            <ellipse cx="125" cy="35" rx="15" ry="40" fill="#E8F5F3" stroke="#93C5BD" stroke-width="2" transform="rotate(-25 125 35)"/>
+            <ellipse cx="125" cy="35" rx="8" ry="30" fill="#FFD6E8" transform="rotate(-25 125 35)"/>
+            <circle cx="85" cy="75" r="4" fill="#2D3748"/>
+            <circle cx="115" cy="75" r="4" fill="#2D3748"/>
+            <path d="M 82 72 Q 85 69 88 72" stroke="#2D3748" stroke-width="2" fill="none"/>
+            <path d="M 112 72 Q 115 69 118 72" stroke="#2D3748" stroke-width="2" fill="none"/>
+            <ellipse cx="100" cy="85" rx="6" ry="4" fill="#FFB8D1"/>
+            <path d="M 100 88 Q 95 92 90 90" stroke="#2D3748" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M 100 88 Q 105 92 110 90" stroke="#2D3748" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <ellipse cx="70" cy="88" rx="12" ry="8" fill="#FFD6E8" opacity="0.6"/>
+            <ellipse cx="130" cy="88" rx="12" ry="8" fill="#FFD6E8" opacity="0.6"/>
+            <rect x="50" y="70" width="8" height="25" rx="4" fill="#B8A3E8" stroke="#9378D9" stroke-width="2"/>
+            <rect x="142" y="70" width="8" height="25" rx="4" fill="#B8A3E8" stroke="#9378D9" stroke-width="2"/>
+            <path d="M 58 82 Q 100 55 142 82" stroke="#9378D9" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <g transform="translate(140, 145)">
+              <rect x="0" y="0" width="25" height="35" rx="3" fill="#FFE5B4" stroke="#E8C896" stroke-width="2"/>
+              <circle cx="12.5" cy="45" r="4" fill="#C19A6B"/>
+              <rect x="10" y="5" width="5" height="8" fill="#8B7355"/>
+              <circle cx="8" cy="25" r="3" fill="#5D4E37" opacity="0.8"/>
+              <circle cx="17" cy="28" r="2.5" fill="#5D4E37" opacity="0.8"/>
+              <circle cx="12" cy="32" r="2" fill="#5D4E37" opacity="0.8"/>
+              <rect x="19" y="-10" width="3" height="20" fill="#FF6B9D" opacity="0.8"/>
+            </g>
+          </svg>
+        </div>
+        
+        <h2 style="font-size: 48px; margin-bottom: 20px; background: linear-gradient(135deg, #93C5BD 0%, #B8A3E8 50%, #FFB8D1 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700;">
+          Chào mừng đến với Thở
+        </h2>
+        <p style="font-size: 20px; color: #4A5568; max-width: 600px; margin: 0 auto 40px; line-height: 1.6;">
+          Nơi học sinh THPT tìm kiếm sự cân bằng, chia sẻ cảm xúc và nhận được hỗ trợ trong hành trình học tập.
+        </p>
+        
+        <div class="grid grid-3" style="max-width: 1000px; margin: 0 auto;">
+          <div class="card" style="cursor: pointer; text-align: left;" onclick="navigateTo('test')">
+            <div style="font-size: 48px; margin-bottom: 16px;">📝</div>
+            <h3 style="font-size: 20px; margin-bottom: 8px; color: #93C5BD;">Test Burnout</h3>
+            <p style="color: #718096; font-size: 14px; line-height: 1.5;">Đánh giá mức độ stress của bạn</p>
+          </div>
+          
+          <div class="card" style="cursor: pointer; text-align: left;" onclick="navigateTo('dashboard')">
+            <div style="font-size: 48px; margin-bottom: 16px;">📊</div>
+            <h3 style="font-size: 20px; margin-bottom: 8px; color: #B8A3E8;">Dashboard</h3>
+            <p style="color: #718096; font-size: 14px; line-height: 1.5;">Theo dõi tiến trình của bạn</p>
+          </div>
+          
+          <div class="card" style="cursor: pointer; text-align: left;" onclick="navigateTo('map')">
+            <div style="font-size: 48px; margin-bottom: 16px;">🗺️</div>
+            <h3 style="font-size: 20px; margin-bottom: 8px; color: #FFB8D1;">Bản đồ nghỉ ngơi</h3>
+            <p style="color: #718096; font-size: 14px; line-height: 1.5;">Tìm địa điểm yên tĩnh gần bạn</p>
+          </div>
+          
+          <div class="card" style="cursor: pointer; text-align: left;" onclick="navigateTo('resources')">
+            <div style="font-size: 48px; margin-bottom: 16px;">📚</div>
+            <h3 style="font-size: 20px; margin-bottom: 8px; color: #93C5BD;">Tài nguyên</h3>
+            <p style="color: #718096; font-size: 14px; line-height: 1.5;">Video, bài viết và hotline hỗ trợ</p>
+          </div>
+        </div>
+        
+        <div style="margin-top: 60px; padding: 32px; background: rgba(147, 197, 189, 0.1); border-radius: 20px; max-width: 700px; margin: 60px auto 0;">
+          <p style="font-size: 18px; font-style: italic; color: #4A5568; margin: 0;">
+            "Chậm lại không sao, quan trọng là đừng dừng hẳn"
+          </p>
+          <p style="font-size: 14px; color: #93C5BD; margin-top: 12px; font-weight: 600;">- Thỏ Thở</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEST BURNOUT PAGE -->
+    <div id="page-test" class="page-content">
+      <div style="max-width: 800px; margin: 0 auto;">
+        <div class="card">
+          <h2 style="margin: 0 0 24px; font-size: 28px; color: #2D3748;">📝 Test Burnout</h2>
+          <p style="color: #718096; margin-bottom: 24px;">Đánh giá mức độ burnout của bạn qua 10 câu hỏi nhanh</p>
+          
+          <div id="test-questions"></div>
+          <button id="submit-test" class="btn btn-primary" style="width: 100%; padding: 16px; font-size: 16px; margin-top: 20px;" disabled>
+            Xem kết quả
+          </button>
+          
+          <div id="test-result" class="hidden"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD PAGE -->
+    <div id="page-dashboard" class="page-content">
+      <h2 style="font-size: 32px; margin-bottom: 24px; color: #2D3748;">📊 Dashboard theo dõi</h2>
+      
+      <div class="grid grid-4 mb-32">
+        <div class="card stat-card">
+          <div class="stat-icon">📈</div>
+          <div class="stat-label">Mức stress trung bình</div>
+          <div class="stat-value" id="avg-stress" style="color: #93C5BD;">--</div>
+        </div>
+        
+        <div class="card stat-card">
+          <div class="stat-icon">📝</div>
+          <div class="stat-label">Số lần test</div>
+          <div class="stat-value" id="test-count" style="color: #B8A3E8;">0</div>
+        </div>
+        
+        <div class="card stat-card">
+          <div class="stat-icon">👥</div>
+          <div class="stat-label">So với nhóm</div>
+          <div class="stat-value" id="compare-group" style="color: #FFB8D1;">--</div>
+        </div>
+        
+        <div class="card stat-card">
+          <div class="stat-icon">📊</div>
+          <div class="stat-label">Xu hướng</div>
+          <div class="stat-value" id="trend" style="color: #93C5BD;">--</div>
+        </div>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3 style="margin-top: 0; color: #2D3748;">Biểu đồ stress theo tuần</h3>
+          <canvas id="stress-chart"></canvas>
+        </div>
+        
+        <div class="card">
+          <h3 style="margin-top: 0; color: #2D3748;">So sánh với trung bình nhóm</h3>
+          <canvas id="compare-chart"></canvas>
+        </div>
+      </div>
+
+      <div id="category-analysis" class="card hidden" style="margin-top: 24px;">
+        <h3 style="margin-top: 0; color: #2D3748;">Phân tích đa chiều - Kết quả gần nhất</h3>
+        <div id="category-scores" class="category-grid"></div>
+      </div>
+    </div>
+
+    <!-- MAP PAGE -->
+    <div id="page-map" class="page-content">
+      <h2 style="font-size: 32px; margin-bottom: 24px; color: #2D3748;">🗺️ Bản đồ nghỉ ngơi TP.HCM</h2>
+      
+      <div class="grid grid-3" id="rest-spots"></div>
+      
+      <div class="card text-center">
+        <svg width="100" height="100" viewBox="0 0 200 200" style="filter: drop-shadow(0 4px 12px rgba(147, 197, 189, 0.3)); margin-bottom: 16px;">
+          <ellipse cx="100" cy="130" rx="60" ry="55" fill="#E8F5F3" stroke="#93C5BD" stroke-width="2"/>
+          <circle cx="100" cy="80" r="50" fill="#F0F8F6" stroke="#93C5BD" stroke-width="2"/>
+          <ellipse cx="75" cy="35" rx="15" ry="40" fill="#E8F5F3" stroke="#93C5BD" stroke-width="2" transform="rotate(25 75 35)"/>
+          <ellipse cx="75" cy="35" rx="8" ry="30" fill="#FFD6E8" transform="rotate(25 75 35)"/>
+          <ellipse cx="125" cy="35" rx="15" ry="40" fill="#E8F5F3" stroke="#93C5BD" stroke-width="2" transform="rotate(-25 125 35)"/>
+          <ellipse cx="125" cy="35" rx="8" ry="30" fill="#FFD6E8" transform="rotate(-25 125 35)"/>
+          <circle cx="85" cy="75" r="4" fill="#2D3748"/>
+          <circle cx="115" cy="75" r="4" fill="#2D3748"/>
+          <path d="M 82 72 Q 85 69 88 72" stroke="#2D3748" stroke-width="2" fill="none"/>
+          <path d="M 112 72 Q 115 69 118 72" stroke="#2D3748" stroke-width="2" fill="none"/>
+          <ellipse cx="100" cy="85" rx="6" ry="4" fill="#FFB8D1"/>
+          <path d="M 100 88 Q 95 92 90 90" stroke="#2D3748" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M 100 88 Q 105 92 110 90" stroke="#2D3748" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <ellipse cx="70" cy="88" rx="12" ry="8" fill="#FFD6E8" opacity="0.6"/>
+          <ellipse cx="130" cy="88" rx="12" ry="8" fill="#FFD6E8" opacity="0.6"/>
+        </svg>
+        <h3 style="color: #2D3748; margin-top: 0;">Gợi ý của Thỏ Thở</h3>
+        <p style="color: #718096; max-width: 600px; margin: 12px auto 0; line-height: 1.6;">
+          Khi cảm thấy áp lực, hãy tìm một nơi yên tĩnh để thở và suy nghĩ. 
+          Đôi khi chỉ cần 30 phút ở một không gian mới cũng giúp tâm trạng tốt hơn rất nhiều! 🌸
+        </p>
+      </div>
+    </div>
+
+    <!-- RESOURCES PAGE -->
+    <div id="page-resources" class="page-content">
+      <h2 style="font-size: 32px; margin-bottom: 24px; color: #2D3748;">📚 Thư viện tài nguyên</h2>
+      
+      <div class="grid grid-3" id="resources-list"></div>
+      
+      <div class="card">
+        <h3 style="margin-top: 0; color: #2D3748;">🆘 Hỗ trợ khẩn cấp</h3>
+        <div style="background: rgba(255, 107, 157, 0.1); padding: 20px; border-radius: 12px; border: 2px solid rgba(255, 107, 157, 0.3);">
+          <p style="color: #4A5568; margin-bottom: 16px; line-height: 1.6;">
+            Nếu bạn đang có suy nghĩ tự làm hại bản thân hoặc cần hỗ trợ tâm lý khẩn cấp:
+          </p>
+          <a href="tel:1800599885" style="text-decoration: none; display: block;">
+            <div style="background: white; padding: 16px; border-radius: 12px; display: flex; align-items: center; gap: 16px;">
+              <div style="font-size: 32px;">📞</div>
+              <div style="text-align: left;">
+                <div style="font-weight: 700; color: #2D3748;">Tổng đài Sức khỏe Tâm thần</div>
+                <div style="color: #FF6B9D; font-size: 18px; font-weight: 700;">1800 599 885</div>
+                <div style="color: #718096; font-size: 13px;">24/7 - Miễn phí</div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <svg width="80" height="80" viewBox="0 0 200 200" style="filter: drop-shadow(0 4px 12px rgba(147, 197, 189, 0.3)); margin-bottom: 16px;">
+        <ellipse cx="100" cy="130" rx="60" ry="55" fill="#E8F5F3" stroke="#93C5BD" stroke-width="2"/>
+        <circle cx="100" cy="80" r="50" fill="#F0F8F6" stroke="#93C5BD" stroke-width="2"/>
+        <ellipse cx="75" cy="35" rx="15" ry="40" fill="#E8F5F3" stroke="#93C5BD" stroke-width="2" transform="rotate(25 75 35)"/>
+        <ellipse cx="75" cy="35" rx="8" ry="30" fill="#FFD6E8" transform="rotate(25 75 35)"/>
+        <ellipse cx="125" cy="35" rx="15" ry="40" fill="#E8F5F3" stroke="#93C5BD" stroke-width="2" transform="rotate(-25 125 35)"/>
+        <ellipse cx="125" cy="35" rx="8" ry="30" fill="#FFD6E8" transform="rotate(-25 125 35)"/>
+        <circle cx="85" cy="75" r="4" fill="#2D3748"/>
+        <circle cx="115" cy="75" r="4" fill="#2D3748"/>
+        <path d="M 82 72 Q 85 69 88 72" stroke="#2D3748" stroke-width="2" fill="none"/>
+        <path d="M 112 72 Q 115 69 118 72" stroke="#2D3748" stroke-width="2" fill="none"/>
+        <ellipse cx="100" cy="85" rx="6" ry="4" fill="#FFB8D1"/>
+        <path d="M 100 88 Q 95 92 90 90" stroke="#2D3748" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M 100 88 Q 105 92 110 90" stroke="#2D3748" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <ellipse cx="70" cy="88" rx="12" ry="8" fill="#FFD6E8" opacity="0.6"/>
+        <ellipse cx="130" cy="88" rx="12" ry="8" fill="#FFD6E8" opacity="0.6"/>
+      </svg>
+      <p style="color: #718096; font-size: 14px; margin-top: 16px;">
+        © 2024 Thở - Breathe Teen | Website hỗ trợ sức khỏe tinh thần học sinh THPT
+      </p>
+      <p style="color: #93C5BD; font-size: 13px; margin-top: 8px;">
+        "Chậm lại không sao, quan trọng là đừng dừng hẳn"
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    // Data management
+    const Storage = {
+      get: (key) => {
+        const data = localStorage.getItem(key);
+        return data ? JSON.parse(data) : null;
+      },
+      set: (key, value) => {
+        localStorage.setItem(key, JSON.stringify(value));
+      }
+    };
+
+    let userData = Storage.get('thoUserData') || {
+      weeklyStress: [],
+      burnoutTests: []
+    };
+
+    // Burnout test questions
+    const burnoutQuestions = [
+      { id: 1, text: 'Bạn có cảm thấy kiệt sức sau một ngày học không?', category: 'exhaustion' },
+      { id: 2, text: 'Bạn có khó tập trung vào bài học không?', category: 'concentration' },
+      { id: 3, text: 'Bạn có cảm thấy áp lực từ kỳ vọng của gia đình không?', category: 'pressure' },
+      { id: 4, text: 'Bạn có thường xuyên lo lắng về điểm số không?', category: 'anxiety' },
+      { id: 5, text: 'Bạn có cảm thấy mất hứng thú với những thứ bạn từng thích không?', category: 'motivation' },
+      { id: 6, text: 'Bạn có gặp khó khăn trong việc ngủ không?', category: 'sleep' },
+      { id: 7, text: 'Bạn có cảm thấy cô đơn dù ở trong đám đông không?', category: 'isolation' },
+      { id: 8, text: 'Bạn có nghĩ rằng mình không đủ giỏi không?', category: 'self-worth' },
+      { id: 9, text: 'Bạn có bỏ bữa hoặc ăn không đúng giờ không?', category: 'physical' },
+      { id: 10, text: 'Bạn có cảm thấy không có thời gian cho bản thân không?', category: 'time' }
+    ];
+
+    const answerLabels = ['Không bao giờ', 'Hiếm khi', 'Thỉnh thoảng', 'Thường xuyên', 'Luôn luôn'];
+    let testAnswers = {};
+
+    // Rest spots data
+    const restSpots = [
+      { id: 1, name: 'Thư viện Thành phố', address: '69 Lý Tự Trọng, Q1', type: 'Thư viện', lat: 10.7769, lng: 106.7009, vibe: 'Yên tĩnh, nhiều sách', hours: '8:00 - 20:00', icon: '📚' },
+      { id: 2, name: 'Công viên Tao Đàn', address: 'Trương Định, Q1', type: 'Công viên', lat: 10.7823, lng: 106.6920, vibe: 'Xanh mát, thoáng đãng', hours: '5:00 - 21:00', icon: '🌳' },
+      { id: 3, name: 'Nhà sách Fahasa NVL', address: '40 Nguyễn Huệ, Q1', type: 'Nhà sách', lat: 10.7745, lng: 106.7021, vibe: 'Sách hay, cafe nhỏ', hours: '8:30 - 22:00', icon: '📖' },
+      { id: 4, name: 'Thảo Cầm Viên', address: 'Nguyễn Bỉnh Khiêm, Q1', type: 'Vườn thú', lat: 10.7878, lng: 106.7056, vibe: 'Thiên nhiên, động vật', hours: '7:00 - 18:00', icon: '🦁' },
+      { id: 5, name: 'Café The Book Nook', address: '28 Nguyễn Văn Trỗi, Q3', type: 'Cafe', lat: 10.7868, lng: 106.6762, vibe: 'Sách + cafe, góc đọc', hours: '8:00 - 22:00', icon: '☕' },
+      { id: 6, name: 'Bờ kè Bạch Đằng', address: 'Tôn Đức Thắng, Q1', type: 'Outdoor', lat: 10.7711, lng: 106.7059, vibe: 'Sông Sài Gòn, gió mát', hours: '24/7', icon: '🌊' },
+      { id: 7, name: 'Bảo tàng Mỹ thuật', address: '97A Phó Đức Chính, Q1', type: 'Bảo tàng', lat: 10.7681, lng: 106.6978, vibe: 'Nghệ thuật, yên bình', hours: '9:00 - 17:00', icon: '🎨' },
+      { id: 8, name: 'Công viên Gia Định', address: 'Hoàng Minh Giám, Q.Phú Nhuận', type: 'Công viên', lat: 10.8011, lng: 106.6766, vibe: 'Hồ nước, chạy bộ', hours: '5:00 - 21:00', icon: '🌳' }
+    ];
+
+    // Resources data
+    const resources = [
+      { type: 'video', title: 'Kỹ thuật hít thở 4-7-8 giảm stress', author: 'Dr. Nguyễn Văn A', duration: '8:32', thumbnail: '🫁', link: '#' },
+      { type: 'article', title: 'Làm sao để nói "không" với áp lực', author: 'Tâm lý học trường', readTime: '5 phút', thumbnail: '📖', link: '#' },
+      { type: 'hotline', title: 'Tổng đài Sức khỏe Tâm thần', phone: '1800 599 885', hours: '24/7', thumbnail: '📞', link: 'tel:1800599885' },
+      { type: 'video', title: 'Meditation cho học sinh (15 phút)', author: 'Mindful Teen', duration: '15:20', thumbnail: '🧘', link: '#' },
+      { type: 'article', title: 'Lập kế hoạch học tập không stress', author: 'Study Coach', readTime: '8 phút', thumbnail: '📝', link: '#' },
+      { type: 'hotline', title: 'Bệnh viện Nhi Đồng 1 - Tư vấn tâm lý', phone: '(028) 3829 5723', hours: '8:00 - 17:00', thumbnail: '🏥', link: 'tel:02838295723' }
+    ];
+
+    // Navigation
+    function navigateTo(page) {
+      document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      
+      document.getElementById(`page-${page}`).classList.add('active');
+      document.querySelector(`[data-page="${page}"]`).classList.add('active');
+      
+      if (page === 'dashboard') {
+        updateDashboard();
+      }
+    }
+
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        navigateTo(item.dataset.page);
+      });
+    });
+
+    // Test Burnout
+    function renderTestQuestions() {
+      const container = document.getElementById('test-questions');
+      container.innerHTML = burnoutQuestions.map((q, idx) => `
+        <div class="question">
+          <p class="question-text">${idx + 1}. ${q.text}</p>
+          <div class="answer-options">
+            ${answerLabels.map((label, val) => `
+              <div class="answer-option" data-qid="${q.id}" data-value="${val + 1}">
+                ${label}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+
+      document.querySelectorAll('.answer-option').forEach(option => {
+        option.addEventListener('click', (e) => {
+          const qid = parseInt(e.target.dataset.qid);
+          const value = parseInt(e.target.dataset.value);
+          
+          document.querySelectorAll(`[data-qid="${qid}"]`).forEach(o => o.classList.remove('selected'));
+          e.target.classList.add('selected');
+          
+          testAnswers[qid] = value;
+          
+          document.getElementById('submit-test').disabled = Object.keys(testAnswers).length < burnoutQuestions.length;
+        });
+      });
+    }
+
+    function calculateBurnoutScore() {
+      const total = Object.values(testAnswers).reduce((sum, val) => sum + val, 0);
+      const maxScore = burnoutQuestions.length * 5;
+      const percentage = (total / maxScore) * 100;
+      
+      let level, advice, color;
+      if (percentage < 30) {
+        level = 'Tốt';
+        advice = 'Bạn đang quản lý stress rất tốt! Hãy tiếp tục duy trì thói quen tích cực này.';
+        color = '#93C5BD';
+      } else if (percentage < 50) {
+        level = 'Bình thường';
+        advice = 'Bạn đang có một số dấu hiệu stress. Hãy chú ý nghỉ ngơi và dành thời gian cho bản thân nhiều hơn.';
+        color = '#B8A3E8';
+      } else if (percentage < 70) {
+        level = 'Cần chú ý';
+        advice = 'Mức độ burnout của bạn đang ở mức cần quan tâm. Hãy thử các kỹ thuật thư giãn và nói chuyện với ai đó.';
+        color = '#FFB8D1';
+      } else {
+        level = 'Nghiêm trọng';
+        advice = 'Bạn đang trong tình trạng burnout nghiêm trọng. Hãy tìm đến sự hỗ trợ từ gia đình, thầy cô hoặc chuyên gia tâm lý.';
+        color = '#FF6B9D';
+      }
+
+      const categoryScores = {};
+      burnoutQuestions.forEach(q => {
+        categoryScores[q.category] = testAnswers[q.id] || 0;
+      });
+
+      const result = {
+        score: total,
+        percentage: percentage.toFixed(1),
+        level,
+        advice,
+        color,
+        date: new Date().toISOString(),
+        categoryScores
+      };
+
+      userData.burnoutTests.push(result);
+      userData.weeklyStress.push({
+        week: `Tuần ${userData.weeklyStress.length + 1}`,
+        stress: percentage,
+        date: new Date().toISOString()
+      });
+      
+      Storage.set('thoUserData', userData);
+      
+      showTestResult(result);
+    }
+
+    function showTestResult(result) {
+      document.getElementById('test-questions').style.display = 'none';
+      document.getElementById('submit-test').style.display = 'none';
+      
+      const categoryLabels = {
+        exhaustion: 'Kiệt sức',
+        concentration: 'Tập trung',
+        pressure: 'Áp lực',
+        anxiety: 'Lo âu',
+        motivation: 'Động lực',
+        sleep: 'Giấc ngủ',
+        isolation: 'Cô đơn',
+        'self-worth': 'Tự tin',
+        physical: 'Sức khỏe',
+        time: 'Thời gian'
+      };
+
+      const resultDiv = document.getElementById('test-result');
+      resultDiv.className = '';
+      resultDiv.innerHTML = `
+        <div class="result-box" style="background: linear-gradient(135deg, ${result.color}20 0%, ${result.color}10 100%);">
+          <h3 class="result-level" style="color: ${result.color};">Mức độ: ${result.level}</h3>
+          <div class="result-percentage" style="color: ${result.color};">${result.percentage}%</div>
+          <div class="stress-indicator" style="max-width: 300px; margin: 20px auto;">
+            <div class="stress-fill" style="width: ${result.percentage}%; background: linear-gradient(90deg, ${result.color} 0%, ${result.color}CC 100%);"></div>
+          </div>
+        </div>
+
+        <div style="background: rgba(147, 197, 189, 0.1); padding: 24px; border-radius: 16px; margin-bottom: 24px;">
+          <h4 style="margin-top: 0; color: #2D3748;">💡 Khuyến nghị</h4>
+          <p style="color: #4A5568; line-height: 1.6; margin: 0;">${result.advice}</p>
+        </div>
+
+        <div style="margin-bottom: 24px;">
+          <h4 style="color: #2D3748; margin-bottom: 16px;">📊 Phân tích chi tiết</h4>
+          <div class="category-grid">
+            ${Object.entries(result.categoryScores).map(([cat, score]) => `
+              <div class="category-item">
+                <div class="category-name">${categoryLabels[cat]}</div>
+                <div class="category-bars">
+                  ${Array(5).fill(0).map((_, i) => `
+                    <div class="category-bar" style="background: ${i < score ? result.color : '#E2E8F0'};"></div>
+                  `).join('')}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="flex gap-12">
+          <button class="btn btn-secondary" style="flex: 1;" onclick="exportPDF()">📄 Xuất báo cáo</button>
+          <button class="btn btn-primary" style="flex: 1;" onclick="resetTest()">🔄 Làm lại test</button>
+        </div>
+      `;
+    }
+
+    function resetTest() {
+      testAnswers = {};
+      document.getElementById('test-questions').style.display = 'block';
+      document.getElementById('submit-test').style.display = 'block';
+      document.getElementById('submit-test').disabled = true;
+      document.getElementById('test-result').className = 'hidden';
+      document.querySelectorAll('.answer-option').forEach(o => o.classList.remove('selected'));
+    }
+
+    function exportPDF() {
+      const lastTest = userData.burnoutTests[userData.burnoutTests.length - 1];
+      const categoryLabels = {
+        exhaustion: 'Kiệt sức',
+        concentration: 'Tập trung',
+        pressure: 'Áp lực',
+        anxiety: 'Lo âu',
+        motivation: 'Động lực',
+        sleep: 'Giấc ngủ',
+        isolation: 'Cô đơn',
+        'self-worth': 'Tự tin',
+        physical: 'Sức khỏe',
+        time: 'Quản lý thời gian'
+      };
+
+      const pdfContent = `
+BÁO CÁO ĐÁNH GIÁ BURNOUT
+Website: Thở - Breathe Teen
+Ngày: ${new Date().toLocaleDateString('vi-VN')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+KẾT QUẢ TỔNG QUAN
+Mức độ Burnout: ${lastTest.level}
+Điểm số: ${lastTest.score}/50 (${lastTest.percentage}%)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PHÂN TÍCH CHI TIẾT
+
+${Object.entries(lastTest.categoryScores).map(([cat, score]) => 
+  `${categoryLabels[cat]}: ${'█'.repeat(score)}${'░'.repeat(5-score)} ${score}/5`
+).join('\n')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+KHUYẾN NGHỊ
+${lastTest.advice}
+
+LỊCH SỬ STRESS (${userData.weeklyStress.length} tuần gần nhất)
+${userData.weeklyStress.slice(-4).map(w => 
+  `${w.week}: ${w.stress.toFixed(1)}%`
+).join('\n')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+HOTLINE HỖ TRỢ
+• Tổng đài Sức khỏe Tâm thần: 1800 599 885
+• Viện Sức khỏe Tâm thần: (028) 3969 0372
+• Bệnh viện Nhi Đồng 1: (028) 3829 5723
+
+Báo cáo này chỉ mang tính chất tham khảo.
+Nếu cần hỗ trợ chuyên sâu, hãy liên hệ với chuyên gia tâm lý.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Website: tho.edu.vn | Email: support@tho.edu.vn
+      `.trim();
+
+      const blob = new Blob([pdfContent], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Bao-cao-Burnout-${new Date().toISOString().split('T')[0]}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // Dashboard
+    let stressChart, compareChart;
+
+    function updateDashboard() {
+      const avgStress = userData.burnoutTests.length > 0
+        ? userData.burnoutTests.reduce((sum, t) => sum + parseFloat(t.percentage), 0) / userData.burnoutTests.length
+        : 0;
+      
+      document.getElementById('avg-stress').textContent = avgStress > 0 ? `${avgStress.toFixed(1)}%` : '--';
+      document.getElementById('test-count').textContent = userData.burnoutTests.length;
+      document.getElementById('compare-group').textContent = avgStress > 0 ? `${(avgStress - 45).toFixed(1) > 0 ? '+' : ''}${(avgStress - 45).toFixed(1)}%` : '--';
+      
+      const trend = userData.weeklyStress.length >= 2 && 
+        userData.weeklyStress[userData.weeklyStress.length - 1].stress < 
+        userData.weeklyStress[userData.weeklyStress.length - 2].stress ? '📉 Giảm' : '📈 Tăng';
+      document.getElementById('trend').textContent = userData.weeklyStress.length >= 2 ? trend : '--';
+
+      renderStressChart();
+      renderCompareChart(avgStress);
+      renderCategoryAnalysis();
+    }
+
+    function renderStressChart() {
+      const ctx = document.getElementById('stress-chart');
+      if (!ctx) return;
+
+      const weeklyData = userData.weeklyStress.length > 0 
+        ? userData.weeklyStress.slice(-4)
+        : [
+            { week: 'Tuần 1', stress: 45 },
+            { week: 'Tuần 2', stress: 52 },
+            { week: 'Tuần 3', stress: 48 },
+            { week: 'Tuần 4', stress: 55 }
+          ];
+
+      if (stressChart) stressChart.destroy();
+      
+      stressChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: weeklyData.map(d => d.week),
+          datasets: [{
+            label: 'Mức stress (%)',
+            data: weeklyData.map(d => d.stress),
+            borderColor: '#93C5BD',
+            backgroundColor: 'rgba(147, 197, 189, 0.1)',
+            borderWidth: 3,
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: { display: true }
+          },
+          scales: {
+            y: { 
+              beginAtZero: true,
+              max: 100
+            }
+          }
+        }
+      });
+    }
+
+    function renderCompareChart(avgStress) {
+      const ctx = document.getElementById('compare-chart');
+      if (!ctx) return;
+
+      if (compareChart) compareChart.destroy();
+      
+      compareChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Bạn', 'Trung bình', 'Cao nhất'],
+          datasets: [{
+            label: 'Mức stress (%)',
+            data: [avgStress || 45, 45, 75],
+            backgroundColor: ['#B8A3E8', '#93C5BD', '#FFB8D1'],
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: { 
+              beginAtZero: true,
+              max: 100
+            }
+          }
+        }
+      });
+    }
+
+    function renderCategoryAnalysis() {
+      if (userData.burnoutTests.length === 0) {
+        document.getElementById('category-analysis').classList.add('hidden');
+        return;
+      }
+
+      const lastTest = userData.burnoutTests[userData.burnoutTests.length - 1];
+      const categoryLabels = {
+        exhaustion: 'Kiệt sức',
+        concentration: 'Tập trung',
+        pressure: 'Áp lực',
+        anxiety: 'Lo âu',
+        motivation: 'Động lực',
+        sleep: 'Giấc ngủ',
+        isolation: 'Cô đơn',
+        'self-worth': 'Tự tin',
+        physical: 'Sức khỏe',
+        time: 'Thời gian'
+      };
+
+      document.getElementById('category-analysis').classList.remove('hidden');
+      document.getElementById('category-scores').innerHTML = Object.entries(lastTest.categoryScores).map(([cat, score]) => `
+        <div class="category-item">
+          <div class="category-name">${categoryLabels[cat]}</div>
+          <div class="category-bars">
+            ${Array(5).fill(0).map((_, i) => `
+              <div class="category-bar" style="background: ${i < score ? lastTest.color : '#E2E8F0'};"></div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Rest spots
+    function renderRestSpots() {
+      const container = document.getElementById('rest-spots');
+      container.innerHTML = restSpots.map(spot => `
+        <div class="card">
+          <div class="flex-between mb-16">
+            <div>
+              <h3 style="margin: 0 0 8px; color: #2D3748; font-size: 18px;">${spot.name}</h3>
+              <span class="spot-type">${spot.type}</span>
+            </div>
+            <div style="font-size: 32px;">${spot.icon}</div>
+          </div>
+          
+          <p style="color: #4A5568; font-size: 14px; margin-bottom: 8px;">
+            📍 ${spot.address}
+          </p>
+          <p style="color: #718096; font-size: 14px; margin-bottom: 8px; font-style: italic;">
+            ✨ ${spot.vibe}
+          </p>
+          <p style="color: #93C5BD; font-size: 13px; font-weight: 600; margin-bottom: 12px;">
+            🕐 ${spot.hours}
+          </p>
+          
+          <a href="https://www.google.com/maps/search/?api=1&query=${spot.lat},${spot.lng}" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+            <button class="btn btn-primary" style="width: 100%;">🧭 Chỉ đường</button>
+          </a>
+        </div>
+      `).join('');
+    }
+
+    // Resources
+    function renderResources() {
+      const container = document.getElementById('resources-list');
+      container.innerHTML = resources.map(resource => `
+        <div class="card">
+          <div style="font-size: 48px; margin-bottom: 16px; text-align: center;">${resource.thumbnail}</div>
+          <span class="resource-type ${resource.type}">
+            ${resource.type === 'video' ? '🎥 Video' : resource.type === 'article' ? '📄 Bài viết' : '📞 Hotline'}
+          </span>
+          <h4 style="margin: 0 0 12px; color: #2D3748;">${resource.title}</h4>
+          ${resource.author ? `<p style="color: #718096; font-size: 14px; margin-bottom: 8px;">👤 ${resource.author}</p>` : ''}
+          ${resource.duration ? `<p style="color: #93C5BD; font-size: 14px; font-weight: 600;">⏱️ ${resource.duration}</p>` : ''}
+          ${resource.readTime ? `<p style="color: #B8A3E8; font-size: 14px; font-weight: 600;">📖 ${resource.readTime}</p>` : ''}
+          ${resource.phone ? `
+            <p style="color: #FFB8D1; font-size: 16px; font-weight: 700; margin: 8px 0;">${resource.phone}</p>
+            <p style="color: #718096; font-size: 13px;">🕐 ${resource.hours}</p>
+          ` : ''}
+          <a href="${resource.link}" style="text-decoration: none;">
+            <button class="btn btn-primary" style="width: 100%; margin-top: 12px;">
+              ${resource.type === 'hotline' ? '📞 Gọi ngay' : '👀 Xem ngay'}
+            </button>
+          </a>
+        </div>
+      `).join('');
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      renderTestQuestions();
+      renderRestSpots();
+      renderResources();
+      
+      document.getElementById('submit-test').addEventListener('click', calculateBurnoutScore);
+    });
+  </script>
+</body>
+</html>
